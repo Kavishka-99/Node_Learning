@@ -1,0 +1,16 @@
+{
+  "name": "node_learning",
+  "version": "1.0.0",
+  "description": "node learning",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["nodejs","learning", "freecodecamp"],
+  "author": "Kavishka.Gayanjalee",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "github.com/Kavishka-99/Node_Learning"
+  }
+}
