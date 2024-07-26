@@ -18,6 +18,6 @@
     "url": "github.com/Kavishka-99/Node_Learning"
   },
   "dependencies": {
-    "express": "^4.14.0"
+    "express": "^4.19.2"
   }
 }
