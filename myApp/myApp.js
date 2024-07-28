@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + "myApp/views/index.html");
+app.get('/', function(req, res) {
+    res.send("Hello Express");
 });
 
 app.listen(port, () => {
