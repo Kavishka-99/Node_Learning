@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
 
@@ -13,7 +14,11 @@ app.get('/', (req, res) => {
 
 // Route to serve JSON response
 app.get('/json', (req, res) => {
-    res.json({ message: "Hello json" });
+    let message = "Hello json";
+    if (process.env.MESSAGE_STYLE === 'uppercase') {
+        message = message.toUpperCase();
+    }
+    res.json({ message: message });
 });
 
 const PORT = process.env.PORT || 3000;
