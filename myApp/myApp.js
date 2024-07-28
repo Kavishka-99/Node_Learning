@@ -28,6 +28,14 @@ app.get('/json', (req, res) => {
     res.json({ message: message });
 });
 
+// Route to get current time
+app.get('/now', (req, res, next) => {
+    req.time = new Date().toString();
+    next();
+}, (req, res) => {
+    res.json({ time: req.time });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
