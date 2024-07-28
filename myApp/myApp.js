@@ -4,6 +4,13 @@ require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
 
+// Logger middleware
+app.use((req, res, next) => {
+    const logMessage = `${req.method} ${req.path} - ${req.ip}`;
+    console.log(logMessage);
+    next();
+});
+
 // Middleware to serve static files from the public directory
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
