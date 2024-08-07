@@ -1,42 +1,45 @@
 const express = require('express');
-const path = require('path');
-require('dotenv').config(); // Load environment variables from .env file
-
 const app = express();
+const port = 3000;
 
-// Logger middleware
-app.use((req, res, next) => {
-    const logMessage = `${req.method} ${req.path} - ${req.ip}`;
-    console.log(logMessage);
-    next();
-});
+// Middleware to parse JSON bodies (optional if you want to handle POST requests)
+app.use(express.json());
 
-// Middleware to serve static files from the public directory
-app.use('/public', express.static(path.join(__dirname, 'public')));
-
-// Route to render the index.html file
+// Root route
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+  res.send('Welcome to the Date API. Use /api/:date? to get Unix and UTC timestamps.');
 });
 
-// Route to serve JSON response
-app.get('/json', (req, res) => {
-    let message = "Hello json";
-    if (process.env.MESSAGE_STYLE === 'uppercase') {
-        message = message.toUpperCase();
+// Route to handle /api/:date?
+app.get('/api/:date?', (req, res) => {
+  let dateParam = req.params.date;
+
+  // If dateParam is empty, use current date
+  let date;
+  if (!dateParam) {
+    date = new Date();
+  } else {
+    // Check if the dateParam is a Unix timestamp in milliseconds
+    if (!isNaN(dateParam) && dateParam.length === 13) {
+      date = new Date(parseInt(dateParam));
+    } else {
+      date = new Date(dateParam);
     }
-    res.json({ message: message });
+  }
+
+  // Validate the date
+  if (isNaN(date.getTime())) {
+    return res.json({ error: "Invalid Date" });
+  }
+
+  // Return the Unix and UTC timestamps
+  res.json({
+    unix: date.getTime(),
+    utc: date.toUTCString(),
+  });
 });
 
-// Route to get current time
-app.get('/now', (req, res, next) => {
-    req.time = new Date().toString();
-    next();
-}, (req, res) => {
-    res.json({ time: req.time });
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+// Start the server
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });
