@@ -5,11 +5,6 @@ const port = 3000;
 // Middleware to parse JSON bodies (optional if you want to handle POST requests)
 app.use(express.json());
 
-// Root route
-app.get('/', (req, res) => {
-  res.send('Welcome to the Date API. Use /api/:date? to get Unix and UTC timestamps.');
-});
-
 // Route to handle /api/:date?
 app.get('/api/:date?', (req, res) => {
   let dateParam = req.params.date;
